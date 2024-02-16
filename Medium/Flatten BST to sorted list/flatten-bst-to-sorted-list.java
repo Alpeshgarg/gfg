@@ -77,24 +77,22 @@ public class GFG
 class Solution {
     public Node flattenBST(Node root) {
         // Code here
-        Node dummy = new Node(-1);
-        Node current = dummy;
-        Stack<Node> stack = new Stack<>();
-        Node node = root;
-
-        while (node != null || !stack.isEmpty()) {
-            while (node != null) {
-                stack.push(node);
-                node = node.left;
-            }
-
-            node = stack.pop();
-            current.right = node;
-            current = current.right;
-            node.left = null; // Set left child to null
-            node = node.right;
+        if(root==null||(root.left==null&&root.right==null))
+        {
+            return root;
         }
-
-        return dummy.right;
+        Node l=flattenBST(root.left);
+        Node r=flattenBST(root.right);
+         root.left=null;
+         root.right=r;
+         if(l==null)return root; 
+         else 
+         {  
+            Node temp=l;
+            while(temp.right!=null) temp=temp.right;
+            temp.right=root;
+            root=l;
+            return root;
+         }
     }
 }
